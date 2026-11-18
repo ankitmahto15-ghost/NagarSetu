@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple community platform to report and track neighborhood civic issues.">
+  <meta property="og:title" content="NagarSetu | Neighborhood Issue Reporting">
+  <meta property="og:description" content="Report local problems and follow their progress.">
+  <title>NagarSetu | Neighborhood Issue Reporting</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">NS</span> NagarSetu</a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#issues">Reported Issues</a>
+        <a href="#schemes">Departments</a>
+        <a href="#support">Help</a>
+      </div>
+      <button class="logout-button" id="logoutButton" type="button" style="display:none;">Logout</button>
+    </nav>
+  </header>
+
+
+  <section class="login-page" id="loginPage">
+    <div class="hero" style="min-height:160px; margin-bottom:18px;">
+      <div class="hero-content">
+        <div class="eyebrow">Welcome to NagarSetu</div>
+        <h1>Choose Your Login</h1>
+        <p>Citizens can report local problems. Admins can manage and update complaints.</p>
+      </div>
+    </div>
+    <div class="login-grid">
+      <div class="login-card">
+        <h2><span aria-hidden="true">👤</span> User Login</h2>
+        <p>Login as a citizen to submit and track your complaints.</p>
+        <div class="field">
+          <label for="userName">Your name</label>
+          <input id="userName" type="text" placeholder="Enter your name">
+        </div>
+        <button type="button" id="userLoginButton">Login as User</button>
+      </div>
+      <div class="login-card">
+        <h2><span aria-hidden="true">🛡️</span> Admin Login</h2>
+        <p>Login as an admin to view and manage all complaints.</p>
+        <div class="field">
+          <label for="adminPassword">Admin password</label>
+          <input id="adminPassword" type="password" placeholder="Enter admin password">
+        </div>
+        <button type="button" id="adminLoginButton">Login as Admin</button>
+        <p class="form-note">Demo admin password: <strong>admin123</strong></p>
+      </div>
+    </div>
+    <p id="loginMessage" class="role-message" aria-live="polite"></p>
+  </section>
+
+  <main class="page" id="home">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Your neighbourhood, your voice</div>
+        <h1>Working Together for a Better Neighbourhood</h1>
+        <p>Report potholes, broken streetlights, waste problems and other local issues. Follow every update until the problem is resolved.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#report">Report an Issue</a>
+          <a class="btn btn-light" href="#issues">Track Complaints</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="panel admin-panel" id="adminPanel">
+      <h2>Admin Dashboard - Manage Complaints</h2>
+      <p class="panel-sub">View complaints submitted by citizens and update their status.</p>
+      <div id="adminComplaintList" class="issue-list"></div>
+    </section>
+
+    <section class="panel my-complaints" id="myComplaintsPanel" style="display:none;">
+      <h2>My Complaints</h2>
+      <p class="panel-sub">Track the complaints you have submitted.</p>
+      <div id="myComplaintList" class="issue-list"></div>
+    </section>
+
+    <section class="panel track-panel" id="trackComplaintPanel">
+      <h2>Track Your Complaint</h2>
+      <p class="panel-sub">Enter the complaint ID you received after submitting your report.</p>
+      <div class="track-controls">
+        <input id="trackComplaintId" type="text" placeholder="Example: NS1731840000000">
+        <button type="button" class="btn btn-primary" id="trackButton">Track Complaint</button>
+      </div>
+      <div id="trackResult" class="track-result" aria-live="polite"></div>
+    </section>
+
+    <div class="dashboard">
+      <div class="column">
+        <section class="panel" id="services">
+          <h2>Community Services</h2>
+          <p class="panel-sub">Choose the type of issue you want to report</p>
+          <div class="service-grid">
+            <a class="service" href="#report"><span>ROAD</span>Road & Potholes</a>
+            <a class="service" href="#report"><span>LIGHT</span>Streetlights</a>
+            <a class="service" href="#report"><span>WASTE</span>Waste & Cleaning</a>
+            <a class="service" href="#report"><span>WATER</span>Water Supply</a>
+            <a class="service" href="#report"><span>PARK</span>Public Spaces</a>
+            <a class="service" href="#report"><span>OTHER</span>Other Issues</a>
+          </div>
+        </section>
+
+        <section class="panel" id="report">
+          <h2>Report a Neighbourhood Issue</h2>
+          <p class="panel-sub">Share a few details so the right team can take action</p>
+          <form id="issueForm">
+            <div class="report-form">
+              <div class="field">
+                <label for="category">Issue category</label>
+                <select id="category" name="category" required>
+                  <option>Road / Pothole</option>
+                  <option>Streetlight failure</option>
+                  <option>Waste / Garbage</option>
+                  <option>Water problem</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority" required>
+                  <option>Normal</option><option>High</option><option>Urgent</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="location">Issue location</label>
+                <input id="location" name="location" type="text" placeholder="Street, area or nearby landmark" required>
+              </div>
+              <div class="field full">
+                <label for="description">Describe the issue</label>
+                <textarea id="description" name="description" placeholder="Tell us what happened and where..." required></textarea>
+              </div>
+              <div class="field full">
+                <label for="photo">Add a photo (optional)</label>
+                <input id="photo" name="photo" type="file" accept="image/*">
+                <div id="imagePreviewBox" class="image-preview-box" style="display:none;">
+                  <p class="form-note">Image preview:</p>
+                  <img id="imagePreview" alt="Selected complaint image preview">
+                </div>
+              </div>
+              <div class="field full">
+                <button class="btn btn-primary submit" type="submit">Submit Report</button>
+              </div>
+            </div>
+            <p class="form-note">Demo: complaints are saved in this browser only. This project does not use an online server or database.</p>
+          </form>
+        </section>
+
+        <section class="panel" id="support">
+          <h2>Citizen Support</h2>
+          <div class="support-row">
+            <div class="support-item"><span>Need help?</span><strong>Community Help Desk</strong></div>
+            <div class="support-item"><span>Common questions</span><strong>FAQs & Guidelines</strong></div>
+          </div>
+          <h2 style="margin-top:18px;">Emergency Contact (Demo Only)</h2>
+          <p class="form-note">These are sample numbers for project demonstration only. They are not real emergency services.</p>
+          <div class="support-row demo-contacts">
+            <div class="support-item"><span>Demo Police Desk</span><strong>000-000-0001</strong></div>
+            <div class="support-item"><span>Demo Medical Help</span><strong>000-000-0002</strong></div>
+            <div class="support-item"><span>Demo Fire Support</span><strong>000-000-0003</strong></div>
+            <div class="support-item"><span>Demo NagarSetu Help</span><strong>000-000-0004</strong></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="column">
+        <section class="panel" id="issues">
+          <h2>Latest Reported Issues</h2>
+          <div class="issue-list" id="latestIssueList"></div>
+        </section>
+
+        <section class="panel" id="schemes">
+          <h2>Responsible Departments</h2>
+          <p class="panel-sub">Reports are directed to the relevant local team</p>
+          <div class="issue-list">
+            <div class="issue"><div class="issue-icon">ROAD</div><div><strong>Road Maintenance Team</strong><small>Potholes, damaged roads and footpaths</small></div></div>
+            <div class="issue"><div class="issue-icon">ELEC</div><div><strong>Electrical Department</strong><small>Streetlights and public lighting</small></div></div>
+            <div class="issue"><div class="issue-icon">CLEAN</div><div><strong>Sanitation Department</strong><small>Garbage, waste and cleanliness</small></div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Community Statistics</h2>
+          <div class="stats">
+            <div class="stat"><span>Total Reports</span><strong id="totalReports">0</strong></div>
+            <div class="stat"><span>Resolved Issues</span><strong id="resolvedReports">0</strong></div>
+            <div class="stat"><span>In Progress</span><strong id="progressReports">0</strong></div>
+            <div class="stat"><span>Pending Review</span><strong id="pendingReports">0</strong></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>How It Works</h2>
+          <div class="issue-list">
+            <div class="issue"><div class="issue-icon">1</div><div><strong>Report</strong><small>Choose a category, add location and photo</small></div></div>
+            <div class="issue"><div class="issue-icon">2</div><div><strong>Assignment</strong><small>The issue is sent to the responsible team</small></div></div>
+            <div class="issue"><div class="issue-icon">3</div><div><strong>Track & Resolve</strong><small>Check status updates until completion</small></div></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div><div class="footer-brand">NS NagarSetu</div><p>Building cleaner, safer and better neighbourhoods together.</p></div>
+      <div class="footer-links"><a href="#home">Home</a><a href="#report">Report Issue</a><a href="#issues">Track Issues</a><a href="#support">Contact & Help</a></div>
+      <p>© 2026 NagarSetu · Community Issue Reporting</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+
+</body>
+</html>
